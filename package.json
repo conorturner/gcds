@@ -2,12 +2,13 @@
   "name": "gcds",
   "version": "1.0.0",
   "description": "schema and environment management over google cloud datastore",
-  "main": "GCDS.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha test"
   },
   "keywords": [
-    "datastore"
+    "datastore",
+    "schema"
   ],
   "author": "Conor Turner",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "mocha": "3.2.0"
   },
   "dependencies": {
-    "@google-cloud/datastore": "^1.1.0"
+    "@google-cloud/datastore": "^1.1.0",
+    "jsonschema": "^1.2.2"
   }
 }
