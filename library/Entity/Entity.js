@@ -85,7 +85,7 @@ module.exports = ({gcds}, {kind, schema}) => {
 
 		constructor({key, data}) {
 			const validation = Entity.validate(data, schema);
-			if(validation.errors.length > 0) throw validation;
+			if(validation.errors && validation.errors.length > 0) throw validation;
 			this.key = key;
 			this.data = data;
 		}
