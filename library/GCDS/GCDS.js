@@ -29,7 +29,7 @@ class GCDS {
 	}
 
 	get(key){
-		return this.datastore.get(key);
+		return this.datastore.get(key).then(result => Array.isArray(key) ? result : result[0]);
 	}
 
 	delete(key){

@@ -67,7 +67,8 @@ describe("BDD - Module (CRUD)", () => {
 
 		Person.get(personKey)
 			.then(person => {
-				console.log(person);
+				expect(person.name).to.equal("Conor");
+				expect(person.age).to.equal(21);
 				done();
 			})
 			.catch(err => done(err));
@@ -89,7 +90,7 @@ describe("BDD - Module (CRUD)", () => {
 			.then(() => {
 				return Person.get(key)
 					.then(result => {
-						console.log(result);
+						expect(result.name).to.equal(data.name);
 						done();
 					});
 			})
@@ -106,7 +107,7 @@ describe("BDD - Module (CRUD)", () => {
 			.then(() => {
 				return Person.get(key)
 					.then(result => {
-						console.log(result[0]);
+						expect(result).to.equal(undefined);
 						done();
 					});
 			})
