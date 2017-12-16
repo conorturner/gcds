@@ -115,5 +115,33 @@ describe("BDD - Module (CRUD)", () => {
 
 	});
 
+	it("Find All", (done) => {
+
+		Person.find()
+			.then(result => {
+				console.log(result);
+				done();
+			})
+			.catch(err => done(err));
+
+	});
+
+	it("Find with key", (done) => {
+
+
+		const query = {
+			name: "Conor",
+			age: {$gt: 20, $lt: 30}
+		};
+
+		Person.find(query)
+			.then(result => {
+				console.log(result);
+				done();
+			})
+			.catch(err => done(err));
+
+	});
+
 
 });
