@@ -1,5 +1,5 @@
 {
-  "name": "gcds",
+  "name": "@blog-agency/gcds",
   "version": "1.0.0",
   "description": "schema and environment management over google cloud datastore",
   "main": "index.js",

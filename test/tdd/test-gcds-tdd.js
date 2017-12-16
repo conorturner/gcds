@@ -1,7 +1,7 @@
 const {
 	GCLOUD_PROJECT_ID = "blog-agency",
 	KEY_FILENAME =  __dirname + "/../keyfile.json",
-	NODE_ENV = "development"
+	NODE_ENV = "develop"
 
 } = process.env;
 
