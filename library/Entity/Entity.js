@@ -14,13 +14,12 @@ module.exports = ({gcds}, {kind, schema}) => {
 			return gcds.key([kind, parseInt(id)]);
 		}
 
-		constructor(data) {
-			this.validator = validator;
+		static load (key){
+			return gcds.get(key); //TODO: have it transform a bit
 		}
 
-		load(key) {
-			this.key = key;
-			//TODO: go get shit
+		constructor(data) {
+			this.validator = validator;
 		}
 
 
