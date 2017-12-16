@@ -1,4 +1,4 @@
-const Entity = require("./library/Entity/Entity");
+const EntityFactory = require("./library/Entity/Entity");
 const GCDS = require("./library/GCDS/GCDS");
 
-module.exports = {Entity, GCDS};
+module.exports = {EntityFactory, GCDS};

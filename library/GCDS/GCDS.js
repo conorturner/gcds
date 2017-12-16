@@ -7,13 +7,17 @@ class GCDS {
 		this.namespace = NODE_ENV;
 	}
 
-	key (key) {
-		const path = Array.isArray(key) ? key : [key];
+	getIncompleteKey (kind) {
+		const path = Array.isArray(kind) ? kind : [kind];
+		return this.getKey(path);
+	}
+
+	getKey (path) {
 		return this.datastore.key({namespace: this.namespace, path});
 	}
 
-	id (entityName, id) {
-		return this.key([entityName, parseInt(id)]);
+	getCompleteKey (entityName, id) {
+		return this.getKey([entityName, parseInt(id)]);
 	}
 
 	allocateIds(incompleteKey, n) {
@@ -26,6 +30,10 @@ class GCDS {
 
 	get(key){
 		return this.datastore.get(key);
+	}
+
+	delete(key){
+		return this.datastore.delete(key);
 	}
 
 	query(kind) {
