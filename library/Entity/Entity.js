@@ -29,8 +29,11 @@ module.exports = ({gcds}, {kind, schema}) => {
 
 	class Entity {
 
-		static validate (data){
-			return validator.validate(data, schema);
+		static validate(data) {
+			if(!data) return {valid: false, reason: "Nothing to validate"};
+			const {errors} = validator.validate(data, schema);
+			if (errors.length === 0) return {valid: true};
+			else return {valid: false, reason: errors.map(({property, message}) => `${property} ${message}`)};
 		}
 
 		static getKey(id) {
