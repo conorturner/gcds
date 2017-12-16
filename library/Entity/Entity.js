@@ -29,6 +29,10 @@ module.exports = ({gcds}, {kind, schema}) => {
 
 	class Entity {
 
+		static validate (data){
+			return validator.validate(data, schema);
+		}
+
 		static getKey(id) {
 			return gcds.getCompleteKey(kind, parseInt(id));
 		}
@@ -77,6 +81,8 @@ module.exports = ({gcds}, {kind, schema}) => {
 		}
 
 		constructor({key, data}) {
+			const validation = Entity.validate(data, schema);
+			if(validation.errors.length > 0) throw validation;
 			this.key = key;
 			this.data = data;
 		}
