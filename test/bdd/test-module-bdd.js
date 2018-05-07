@@ -12,7 +12,7 @@ const {expect} = require("chai");
 const {GCDS, EntityFactory} = require("../../index");
 const Datastore = require("@google-cloud/datastore");
 
-const gcds = new GCDS({Datastore}, {GCLOUD_PROJECT_ID, KEY_FILENAME, NODE_ENV});
+const gcds = new GCDS({GCLOUD_PROJECT_ID, KEY_FILENAME, NODE_ENV}, {Datastore});
 
 const personSchema = {
 	"type": "object",

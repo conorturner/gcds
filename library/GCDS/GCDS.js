@@ -2,22 +2,22 @@
 
 class GCDS {
 
-	constructor({Datastore = require("@google-cloud/datastore")}, {GCLOUD_PROJECT_ID, KEY_FILENAME, NODE_ENV = "develop"}){
+	constructor({ GCLOUD_PROJECT_ID, KEY_FILENAME, NODE_ENV = "develop" }, { Datastore = require("@google-cloud/datastore") } = {}) {
 		this.Datastore = Datastore;
-		this.datastore = Datastore({projectId: GCLOUD_PROJECT_ID, keyFilename: KEY_FILENAME});
+		this.datastore = Datastore({ projectId: GCLOUD_PROJECT_ID, keyFilename: KEY_FILENAME });
 		this.namespace = NODE_ENV;
 	}
 
-	getIncompleteKey (kind) {
+	getIncompleteKey(kind) {
 		const path = Array.isArray(kind) ? kind : [kind];
 		return this.getKey(path);
 	}
 
-	getKey (path) {
-		return this.datastore.key({namespace: this.namespace, path});
+	getKey(path) {
+		return this.datastore.key({ namespace: this.namespace, path });
 	}
 
-	getCompleteKey (entityName, id) {
+	getCompleteKey(entityName, id) {
 		return this.getKey([entityName, parseInt(id)]);
 	}
 
@@ -25,15 +25,15 @@ class GCDS {
 		return this.datastore.allocateIds(incompleteKey, n).then(([keys]) => keys);
 	}
 
-	save(entity){
+	save(entity) {
 		return this.datastore.save(entity);
 	}
 
-	get(key){
+	get(key) {
 		return this.datastore.get(key).then(result => Array.isArray(key) ? result : result[0]);
 	}
 
-	delete(key){
+	delete(key) {
 		return this.datastore.delete(key);
 	}
 
