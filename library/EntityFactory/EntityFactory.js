@@ -68,6 +68,16 @@ module.exports = ({gcds}, {kind, schema}) => {
 			return Promise.all(promiseArray).then(resultArray => Array.isArray(entity) ? resultArray : resultArray[0]);
 		}
 
+		static saveMany(entity) {
+			const entityArray = Array.isArray(entity) ? entity : [entity];
+
+			return gcds.allocateIds(Entity.getIncompleteKey(), entityArray.length)
+				.then(keys => {
+					const rows = entityArray.map(({key, data}, index) => ({key: key || keys[index], data}));
+					return gcds.save(rows).then(() => rows);
+				});
+		}
+
 		static find(fields = {}, cursor, limit) {
 			let query = Object
 				.keys(fields)

@@ -60,6 +60,24 @@ describe("BDD - Module (CRUD)", () => {
 
 	});
 
+	it("Create Many", (done) => {
+
+		const data = {
+			"name": "Conor",
+			"age": 21
+		};
+
+		const person = new Person({data});
+
+		Person.saveMany(person)
+			.then(result => {
+				console.log(JSON.stringify(result, null, 2));
+				done();
+			})
+			.catch(err => done(err));
+
+	});
+
 	it("Read", (done) => {
 
 
@@ -130,8 +148,7 @@ describe("BDD - Module (CRUD)", () => {
 
 
 		const query = {
-			name: "Conor",
-			age: {$gt: 20, $lt: 30}
+			name: "Conor"
 		};
 
 		Person.find(query)

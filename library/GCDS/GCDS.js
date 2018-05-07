@@ -1,5 +1,7 @@
 "use strict";
 
+const MAX_PER_REQ = 500;
+
 class GCDS {
 
 	constructor({ GCLOUD_PROJECT_ID, KEY_FILENAME, NODE_ENV = "develop" }, { Datastore = require("@google-cloud/datastore") } = {}) {
@@ -22,11 +24,36 @@ class GCDS {
 	}
 
 	allocateIds(incompleteKey, n) {
-		return this.datastore.allocateIds(incompleteKey, n).then(([keys]) => keys);
+		if (n < MAX_PER_REQ + 1) return this.datastore.allocateIds(incompleteKey, n).then(([keys]) => keys);
+		else {
+			const nRequests = Math.ceil(n / MAX_PER_REQ);
+			const lastRequestSize = n - (nRequests - 1) * MAX_PER_REQ;
+
+			const promiseArray = new Array(nRequests).fill(null).map((_, index) => {
+				const reqSize = index === nRequests - 1 ? lastRequestSize : MAX_PER_REQ;
+				return this.datastore.allocateIds(incompleteKey, reqSize).then(([keys]) => keys);
+			});
+
+			return Promise.all(promiseArray)
+				.then(result => result.reduce((acc, arr) => acc.concat(arr), []));
+		}
 	}
 
 	save(entity) {
-		return this.datastore.save(entity);
+		if (!Array.isArray(entity) || entity.length < MAX_PER_REQ + 1) return this.datastore.save(entity);
+		else {
+			let chunks = [];
+			for (let i = 0; i < entity.length; i += MAX_PER_REQ) {
+				chunks.push(entity.slice(i, i + MAX_PER_REQ));
+			}
+
+			return Promise.all(chunks.map(chunk => this.datastore.save(chunk)))
+				.then(result => result.reduce((acc, arr) => acc.concat(arr), []));
+		}
+	}
+
+	upsert(entity) {
+		return this.datastore.upsert(entity);
 	}
 
 	get(key) {
