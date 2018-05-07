@@ -76,8 +76,8 @@ module.exports = ({gcds}, {kind, schema}) => {
 					return filter.reduce((query, filter) => query.filter.apply(query, filter), query);
 				}, gcds.query(kind));
 
-			if (cursor) query = query.start(cursor);
-			if (limit) query = query.offset(limit);
+			if (cursor !== undefined) query = query.start(cursor);
+			if (limit !== undefined) query = query.limit(limit);
 
 			return query.run().then(([result, cursor]) =>
 				({result: result.map(record => ({Key: record[gcds.Datastore.KEY], data: record})), cursor}));
