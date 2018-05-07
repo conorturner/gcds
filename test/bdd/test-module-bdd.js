@@ -28,9 +28,9 @@ const personSchema = {
 	}
 };
 
-const Entity = EntityFactory({gcds}, {kind: "Person", schema: personSchema});
+const PersonEntity = EntityFactory({gcds}, {kind: "Person", schema: personSchema});
 
-class Person extends Entity {
+class Person extends PersonEntity {
 	constructor(data) {
 		super(data);
 	}
