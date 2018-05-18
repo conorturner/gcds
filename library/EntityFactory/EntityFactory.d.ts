@@ -1,5 +1,15 @@
 export declare class Entity {
+    static validate(data: any): Error;
+    static getKey(id: number | string): any;
+    static getIncompleteKey(): any;
+    static getIncompleteKey(): any;
+    static get(key: any): Promise;
+    static delete(key: any): Promise;
+    static save(entity: Entity): Promise;
+    static saveMany(entity: Array<Entity>): Promise;
+    static find(fields: any, cursor: any, limit: number): Promise;
 
+    hasKey(): boolean;
 }
 
 declare interface Dependencies {
