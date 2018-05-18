@@ -7,12 +7,12 @@ const {
 
 } = process.env;
 
-const {expect} = require("chai");
+const { expect } = require("chai");
 
-const {GCDS, EntityFactory} = require("../../index");
+const { GCDS, EntityFactory } = require("../../index");
 const Datastore = require("@google-cloud/datastore");
 
-const gcds = new GCDS({GCLOUD_PROJECT_ID, KEY_FILENAME, NODE_ENV}, {Datastore});
+const gcds = new GCDS({ GCLOUD_PROJECT_ID, KEY_FILENAME, NODE_ENV }, { Datastore });
 
 const personSchema = {
 	"type": "object",
@@ -28,7 +28,7 @@ const personSchema = {
 	}
 };
 
-const PersonEntity = EntityFactory({gcds}, {kind: "Person", schema: personSchema});
+const PersonEntity = EntityFactory({ gcds }, { kind: "Person", schema: personSchema });
 
 class Person extends PersonEntity {
 	constructor(data) {
@@ -46,7 +46,7 @@ describe("BDD - Module (CRUD)", () => {
 			"age": 21
 		};
 
-		const person = new Person({data});
+		const person = new Person({ data });
 
 		Person.save(person)
 			.then(result => {
@@ -67,7 +67,7 @@ describe("BDD - Module (CRUD)", () => {
 			"age": 21
 		};
 
-		const person = new Person({data});
+		const person = new Person({ data });
 
 		Person.saveMany(person)
 			.then(result => {
@@ -102,7 +102,7 @@ describe("BDD - Module (CRUD)", () => {
 			"age": 21
 		};
 
-		const person = new Person({key, data});
+		const person = new Person({ key, data });
 
 		Person.save(person)
 			.then(() => {
@@ -141,6 +141,18 @@ describe("BDD - Module (CRUD)", () => {
 				done();
 			})
 			.catch(err => done(err));
+
+	});
+
+	it("Find All Stream", (done) => {
+
+		Person.findStream()
+			.on('error', done)
+			.on('data', (entity) => {
+				console.log(entity)
+			})
+			.on('info', console.log)
+			.on('end', done);
 
 	});
 

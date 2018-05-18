@@ -79,6 +79,17 @@ module.exports = ({gcds}, {kind, schema}) => {
 		}
 
 		static find(fields = {}, cursor, limit) {
+			return Entity._find(fields, cursor, limit)
+				.then(([result, cursor]) =>
+					({result: result.map(record => ({Key: record[gcds.Datastore.KEY], data: record})), cursor}));
+		}
+
+		static findStream(fields = {}, cursor, limit) {
+			const useStream = true;
+			return Entity._find(fields, cursor, limit, useStream);
+		}
+
+		static _find(fields = {}, cursor, limit, useStream = false) {
 			let query = Object
 				.keys(fields)
 				.reduce((query, field) => {
@@ -89,8 +100,8 @@ module.exports = ({gcds}, {kind, schema}) => {
 			if (cursor !== undefined) query = query.start(cursor);
 			if (limit !== undefined) query = query.limit(limit);
 
-			return query.run().then(([result, cursor]) =>
-				({result: result.map(record => ({Key: record[gcds.Datastore.KEY], data: record})), cursor}));
+			if(useStream) return query.runStream();
+			else return query.run();
 		}
 
 		constructor({key, data}) {
