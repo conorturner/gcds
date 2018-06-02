@@ -60,32 +60,6 @@ describe("BDD - Module (CRUD)", () => {
 
 	});
 
-	it.only("Create from array", (done) => {
-
-		const data = [
-			{key: "name", value: "Conor"},
-			{key: "age", value: 21}
-		];
-
-		const person = new Person({ data });
-
-		Person.save(person)
-			.then(result => {
-				const personKey = Person.getKey(result.key.id);
-
-				return Person.get(personKey)
-					.then(person => {
-						console.log(person)
-						expect(person.name).to.equal("Conor");
-						expect(person.age).to.equal(21);
-						done();
-					});
-
-			})
-			.catch(err => done(err));
-
-	});
-
 	it("Create Many", (done) => {
 
 		const data = {
