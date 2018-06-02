@@ -59,7 +59,9 @@ module.exports = ({gcds}, {kind, schema}) => {
 
 			return gcds.allocateIds(Entity.getIncompleteKey(), entityArray.length)
 				.then(keys => {
-					const rows = entityArray.map(({key, data}, index) => ({key: key || keys[index], data}));
+					const rows = entityArray.map(({key, data, excludeFromIndexes}, index) =>
+						({key: key || keys[index], data, excludeFromIndexes}));
+
 					return gcds.save(rows).then(() => rows);
 				});
 		}
@@ -90,11 +92,12 @@ module.exports = ({gcds}, {kind, schema}) => {
 			else return query.run();
 		}
 
-		constructor({key, data}) {
+		constructor({key, data, excludeFromIndexes}) {
 			const validation = Entity.validate(data, schema);
 			if(!validation.valid) throw validation;
 			this.key = key;
 			this.data = data;
+			this.excludeFromIndexes = excludeFromIndexes;
 		}
 
 		hasKey() {
