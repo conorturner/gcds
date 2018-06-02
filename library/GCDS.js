@@ -40,16 +40,7 @@ class GCDS {
 	}
 
 	save(entity) {
-		if (!Array.isArray(entity) || entity.length < MAX_PER_REQ + 1) return this.datastore.save(entity);
-		else {
-			let chunks = [];
-			for (let i = 0; i < entity.length; i += MAX_PER_REQ) {
-				chunks.push(entity.slice(i, i + MAX_PER_REQ));
-			}
-
-			return Promise.all(chunks.map(chunk => this.datastore.save(chunk)))
-				.then(result => result.reduce((acc, arr) => acc.concat(arr), []));
-		}
+		return this.datastore.save(entity);
 	}
 
 	upsert(entity) {

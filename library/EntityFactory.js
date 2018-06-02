@@ -54,22 +54,6 @@ module.exports = ({gcds}, {kind, schema}) => {
 			return gcds.delete(key);
 		}
 
-		static save(entity) {
-			const entityArray = Array.isArray(entity) ? entity : [entity];
-
-			const promiseArray = entityArray.map(entity => {
-				let {key, data} = entity;
-				let promise = Promise.resolve([key]);
-
-				if (!entity.hasKey()) promise = gcds.allocateIds(Entity.getIncompleteKey(), 1);
-
-				return promise.then(([key]) =>
-					gcds.save({key, data}).then(result => Object.assign({}, result[0], {key})));
-			});
-
-			return Promise.all(promiseArray).then(resultArray => Array.isArray(entity) ? resultArray : resultArray[0]);
-		}
-
 		static saveMany(entity) {
 			const entityArray = Array.isArray(entity) ? entity : [entity];
 
