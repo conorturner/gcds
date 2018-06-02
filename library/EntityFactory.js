@@ -30,8 +30,10 @@ module.exports = ({gcds}, {kind, schema}) => {
 	class Entity {
 
 		static validate(data) {
+			const arr2obj = (arr) => arr.reduce((acc, {key, value}) => Object.assign(acc, {[key]: value}));
+
 			if(!data) return {valid: false, reason: "Nothing to validate"};
-			const {errors} = validator.validate(data, schema);
+			const {errors} = validator.validate(Array.isArray(data) ? arr2obj(data) : data, schema);
 			if (errors.length === 0) return {valid: true};
 			else return {valid: false, reason: errors.map(({property, message}) => `${property} ${message}`)};
 		}
