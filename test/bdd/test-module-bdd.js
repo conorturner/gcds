@@ -48,8 +48,8 @@ describe("BDD - Module (CRUD)", () => {
 
 		const person = new Person({ data });
 
-		Person.save(person)
-			.then(result => {
+		Person.saveMany(person)
+			.then(([result]) => {
 				console.log(JSON.stringify(result));
 
 				person_id = result.key.id;
@@ -104,7 +104,7 @@ describe("BDD - Module (CRUD)", () => {
 
 		const person = new Person({ key, data });
 
-		Person.save(person)
+		Person.saveMany(person)
 			.then(() => {
 				return Person.get(key)
 					.then(result => {
