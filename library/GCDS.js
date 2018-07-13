@@ -1,6 +1,6 @@
 "use strict";
 
-const MAX_PER_REQ = 500; // this is set by datastore
+const MAX_PER_REQ = 500; // this is the actual limit
 
 class GCDS {
 

@@ -156,16 +156,16 @@ describe("BDD - Module (CRUD)", () => {
 
 	});
 
-	it("Find with key", (done) => {
+	it.only("Find with key", (done) => {
 
 
 		const query = {
 			name: "Conor"
 		};
 
-		Person.find(query)
-			.then(result => {
-				console.log(result);
+		Person.find({ query, sort: {name: -1} })
+			.then(({result}) => {
+				console.log(result.map(({data})=>data));
 				done();
 			})
 			.catch(err => done(err));

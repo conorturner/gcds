@@ -1,6 +1,6 @@
 {
   "name": "gcds",
-  "version": "1.4.2",
+  "version": "2.0.0",
   "description": "schema and environment management over google cloud datastore",
   "main": "index.js",
   "scripts": {
